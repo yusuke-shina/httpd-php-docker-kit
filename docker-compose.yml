@@ -1,0 +1,65 @@
+version: '3'
+
+services:
+  proxy:
+    build:
+      context: ./nginx-proxy
+    restart: always
+    ports:
+      - 80:80
+      - 443:443
+    links:
+      - web
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+
+  web:
+    build:
+      context: .
+      dockerfile: ./php-httpd/Dockerfile
+      args:
+        PHP_IMAGE_VERSION: apache
+    env_file:
+      - ./.env/.env
+    environment:
+      VIRTUAL_HOST: localhost
+      CERT_NAME: localhost
+      HTTPS_METHOD: noredirect
+    links:
+      - db
+    volumes:
+      - ./data/html/app:/var/www/html
+      - ./php-httpd/conf/php.ini:/usr/local/etc/php-httpd/php.ini
+      - ./php-httpd/conf/default.conf:/etc/apache2/sites-available/000-default.conf
+      - ./data/logs/httpd:/var/log/apache2
+
+  db:
+    image: mariadb:latest
+    ports:
+      - 3306:3306
+    expose:
+      - 3306
+    env_file:
+      - ./.env/.env
+    volumes:
+      - db-data:/var/lib/mysql
+      - ./mariadb/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+      - ./mariadb/my.cnf:/etc/mysql/conf.d/my.cnf
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    ports:
+      - 8080:80
+    env_file:
+      - ./.env/.env
+    environment:
+      PMA_HOST: db
+      PMA_USER: root
+      PMA_PASSWORD: password
+    links:
+      - db
+    volumes:
+      - ./phpmyadmin/config/config.inc.php:/etc/phpmyadmin/config.user.inc.php
+
+volumes:
+  db-data:
