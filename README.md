@@ -5,6 +5,8 @@
 現在、本ブランチではご利用ができません。
 [`version/for-m1-chip`](https://github.com/yusuke-shina/httpd-php-docker-kit/tree/version/for-m1-chip)ブランチにチェックアウトしていただきご利用ください。
 
+## 内包されているコンテナ
+
 | フレームワーク名 | バージョン       |
 | :---------: | :---------------: |
 | PHP         | 最新版(php:apache) |
