@@ -1,9 +1,8 @@
-# PHP x ApacheのためのDocker Kit
+# PHP x ApacheのためのDocker Kit（Apple silicon M1チップをご利用の方用）
 
-## Apple silicon M1チップをご利用の方
+## Intel製CPU搭載PCの方
 
-現在、本ブランチではご利用ができません。
-[`version/for-m1-chip`](https://github.com/yusuke-shina/httpd-php-docker-kit/tree/version/for-m1-chip)ブランチにチェックアウトしていただきご利用ください。
+Intel製CPU搭載PCの方はmainブランチにチェックアウトしていただきご利用ください。
 
 | フレームワーク名 | バージョン       |
 | :---------: | :---------------: |
